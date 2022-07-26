@@ -43,14 +43,14 @@ function getComputerChoice() {
 let playerPoints = 0;
 let computerPoints = 0;
 
-//Compare Values
+//Run one game and compare playerSelection(playerhand) against computerSelection(computerhand)
 function playRound(playerSelection, computerSelection) {
    
-    // make player input not case-sensitive
+    // make player input case-insensitive
     let playerHand = playerSelection.toUpperCase();
 
 
-    //compare hands and add 1 point to the winner
+    //compare hands and add 1 point to the winner. If draw, no points added.
     if (playerHand === "ROCK" && computerSelection === "PAPER") {
         computerPoints += 1;
         console.log("You lose! Paper beats Rock");
@@ -92,8 +92,15 @@ function playRound(playerSelection, computerSelection) {
 
 function game() {
     for (let i = 0; i < 5; i++) {
+        // get input from player
+        // could be improved by accepting only the demanded words
+        // if word incorrect, tell the user why and do not run the game
         const playerSelection = prompt("Rock, paper or scissor?");
+
+        // run the function getComputerChoice() and store the computerhand in computerSelection
         const computerSelection = getComputerChoice();
+
+        //run the game
         playRound(playerSelection, computerSelection);
     }
 
