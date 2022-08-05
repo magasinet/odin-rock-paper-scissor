@@ -1,37 +1,3 @@
-/* ROCK PAPER SCISSOR 
-
-User plays against the computer. 
-There are three choices: rock, paper or scissor.
-Rock > scissor. Scissor > paper. Paper > rock. If user and computer has same hand => draw.
-The winner of 5 games. 
-
-
-*/
-
-/* 
-Computer selects randomly rock, paper or scissor.
-    GET VALUE RANDOM FROM ARRAY AND RETURN HAND IN COMPUTERHAND
-User input select rock, paper or scissor.
-    GET VALUE FROM USER INPUT AND STORE IN PLAYERHAND
-
-Compare values. The winner gets 1 point. If draw => no points.
-    COMPARE COMPUTERHAND WITH PLAYERHAND.
-    IF COMPUTERHAND>PLAYERHAND => COMPUTERHAND 1point
-    ELSE IF PLAYERHAND>COMPUTERHAND => PLAYERHAND 1point
-    ELSE START OVER WITHOUT HANDING POINTS
-
-Play 5 games.
-    RUN ABOVE 5 TIMES
-    COMPARE POINTS
-    IF COMPUTER-POINTS > PLAYER-POINTS => "COMPUTER WINS"
-    IF PLAYER-POINTS > COMPUTER-POINTS => "PLAYER WINS"
-    ELSE "DRAW"
-
-Restart
-    BACK TO SQUARE 1
-
-*/
-
 // Computer Value
 function getComputerChoice() {
     const choices = ["ROCK", "PAPER", "SCISSOR"];
@@ -39,80 +5,117 @@ function getComputerChoice() {
 
 }
 
+// Player value from button
+const btn = document.querySelectorAll("button");
+
+btn.forEach((button) => {
+
+    button.addEventListener("click", () => {
+        
+        let playerPick = button.value;
+        
+        const playerSelection = playerPick;
+        const computerSelection = getComputerChoice();
+        playRound(playerSelection, computerSelection);
+        
+       
+    });
+     
+});
+
+
+
+
 // player variable to be added with points after each game.
 let playerPoints = 0;
 let computerPoints = 0;
 
-//Run one game and compare playerSelection(playerhand) against computerSelection(computerhand)
+//Run one game and compare playerSelection(playerSelection) against computerSelection(computerhand)
 function playRound(playerSelection, computerSelection) {
    
-    // make player input case-insensitive
-    let playerHand = playerSelection.toUpperCase();
-
+ const hands = document.getElementById("hands");
 
     //compare hands and add 1 point to the winner. If draw, no points added.
-    if (playerHand === "ROCK" && computerSelection === "PAPER") {
+    if (playerSelection === "ROCK" && computerSelection === "PAPER") {
         computerPoints += 1;
-        console.log("You lose! Paper beats Rock");
+        hands.textContent = "You lose! Paper beats Rock";
 
-    } else if (playerHand === "ROCK" && computerSelection === "SCISSOR") {
+    } else if (playerSelection === "ROCK" && computerSelection === "SCISSOR") {
         playerPoints += 1;
-        console.log("You win! Rock beats scissor");
+        hands.textContent = "You win! Rock beats scissor";
 
-    } else if (playerHand === "ROCK" && computerSelection === "ROCK") {
-        console.log("Draw! Nobody wins");
+    } else if (playerSelection === "ROCK" && computerSelection === "ROCK") {
+        hands.textContent = "Draw! Nobody wins";
 
-    } else if (playerHand === "PAPER" && computerSelection === "ROCK") {
+    } else if (playerSelection === "PAPER" && computerSelection === "ROCK") {
         playerPoints += 1;
-        console.log("You win! Paper beats rock");
+        hands.textContent = "You win! Paper beats rock";
 
-    } else if (playerHand === "PAPER" && computerSelection === "SCISSOR") {
+    } else if (playerSelection === "PAPER" && computerSelection === "SCISSOR") {
         computerPoints += 1;
-        console.log("You lose! Scissor beats paper");
+        hands.textContent = "You lose! Scissor beats paper";
 
-    } else if (playerHand === "PAPER" && computerSelection === "PAPER") {
-        console.log("Draw! Nobody wins");
+    } else if (playerSelection === "PAPER" && computerSelection === "PAPER") {
+        hands.textContent = "Draw! Nobody wins";
 
-    } else if (playerHand === "SCISSOR" && computerSelection === "PAPER") {
+    } else if (playerSelection === "SCISSOR" && computerSelection === "PAPER") {
         playerPoints += 1;
-        console.log("You win! Scissor beats paper");
+        hands.textContent = "You win! Scissor beats paper";
 
-    } else if (playerHand === "SCISSOR" && computerSelection === "ROCK") {
+    } else if (playerSelection === "SCISSOR" && computerSelection === "ROCK") {
         computerPoints += 1;
-        console.log("You lose! Rock beats scissor");
+        hands.textContent = "You lose! Rock beats scissor";
 
-    } else if (playerHand === "SCISSOR" && computerSelection === "SCISSOR") {
-        console.log("Draw! Nobody wins");
+    } else if (playerSelection === "SCISSOR" && computerSelection === "SCISSOR") {
+        hands.textContent = "Draw! Nobody wins";
+    }
+
+   
+
+    const result = document.getElementById("result");
+    result.textContent = `Your points: ${playerPoints}  Computer points: ${computerPoints}`;
+
+    if (playerPoints === 5 || computerPoints === 5) {
+        
+        
+        
+        btn.forEach((button) => {
+            button.disabled = true;
+        });
+        
+        const winner = document.getElementById("winner");
+
+       if (playerPoints > computerPoints) {
+            winner.textContent=`Congratulations! You got ${playerPoints} point and the computer got ${computerPoints}`;
+        } else  {
+            winner.textContent=`Sorry mate! You got ${playerPoints} point and the computer got ${computerPoints}`;
+        } 
+
+/*         const board = document.querySelector(".board");
+        const restartButton = document.createElement('button');
+        restartButton.textContent = "Restart game";
+
+        board.appendChild(restartButton); */
+
+
     }
 
 }
 
+/* 
+THE WINNER WHO REACHES 5 POINTS WINS
+SHOW THE WINNER
+SHOW THE POINTS
+RESTART THE GAME 
 
-//run playRound/game 5 times and check who has the most score
+IF PLAYERPOINTS OR COMPUTERPOINTS = 5
+ADD WINNER TO HTML
+ADD POINTS TO HTML
+MAKE BUTTONS NOT ACTIVE
+DOM A NEW BUTTON TO RESTART THE GAME AND CLEAR TEXT(='') AND POINTS(=0)
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        // get input from player
-        // could be improved by accepting only the demanded words
-        // if word incorrect, tell the user why and do not run the game
-        const playerSelection = prompt("Rock, paper or scissor?");
 
-        // run the function getComputerChoice() and store the computerhand in computerSelection
-        const computerSelection = getComputerChoice();
 
-        //run the game
-        playRound(playerSelection, computerSelection);
-    }
+*/
 
-    //COMPARE POINTS AND CONSOLE FINAL RESULT
-    if (playerPoints > computerPoints) {
-        console.log(`Congratulations! You got ${playerPoints} point and the computer got ${computerPoints}`);
-    } else if (computerPoints > playerPoints) {
-        console.log(`Sorry mate! You got ${playerPoints} point and the computer got ${computerPoints}`)
-    } else {
-        console.log(`It's a draw! You got ${playerPoints} point and the computer got ${computerPoints}`);
-    }
 
-}
-
-game();
