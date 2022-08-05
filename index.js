@@ -74,7 +74,7 @@ function playRound(playerSelection, computerSelection) {
 
 
     //show points during game
-    result.textContent = `Your points: ${playerPoints}  Computer points: ${computerPoints}`;
+    result.textContent = `Your points = ${playerPoints} and Computer points = ${computerPoints}`;
 
 
     // stop game when player reaches 5 points
@@ -88,13 +88,16 @@ function playRound(playerSelection, computerSelection) {
         // show winner
         if (playerPoints > computerPoints) {
             winner.textContent = `Congratulations! You got ${playerPoints} point and the computer got ${computerPoints}`;
+            winner.style.color = "green";
         } else {
             winner.textContent = `Sorry mate! You got ${playerPoints} point and the computer got ${computerPoints}`;
+            winner.style.color = "red";
         }
 
 
         // add restart button
         restartButton.textContent = "Restart game";
+        restartButton.classList.add("restart-button");
         board.appendChild(restartButton);
         restartButton.addEventListener("click", restartGame);
 
