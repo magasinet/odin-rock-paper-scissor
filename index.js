@@ -1,39 +1,41 @@
-// Computer Value
+const btn = document.querySelectorAll("button");
+const board = document.querySelector(".board");
+const hands = document.getElementById("hands");
+const result = document.getElementById("result");
+const winner = document.getElementById("winner");
+const restartButton = document.createElement('button');
+
+let playerPoints = 0;
+let computerPoints = 0;
+
+
+
+// Get value from computer
 function getComputerChoice() {
     const choices = ["ROCK", "PAPER", "SCISSOR"];
     return choices[Math.floor(Math.random() * choices.length)];
 
 }
 
-// Player value from button
-const btn = document.querySelectorAll("button");
-
-btn.forEach((button) => {
+// Get value from player
+btn.forEach((button) => {                        // Go through all buttons
 
     button.addEventListener("click", () => {
-        
-        let playerPick = button.value;
-        
+
+        let playerPick = button.value;           // See which button was pressed and get value      
+
         const playerSelection = playerPick;
         const computerSelection = getComputerChoice();
         playRound(playerSelection, computerSelection);
-        
-       
+
+
     });
-     
+
 });
 
 
-
-
-// player variable to be added with points after each game.
-let playerPoints = 0;
-let computerPoints = 0;
-
-//Run one game and compare playerSelection(playerSelection) against computerSelection(computerhand)
+//Run game
 function playRound(playerSelection, computerSelection) {
-   
- const hands = document.getElementById("hands");
 
     //compare hands and add 1 point to the winner. If draw, no points added.
     if (playerSelection === "ROCK" && computerSelection === "PAPER") {
@@ -70,52 +72,54 @@ function playRound(playerSelection, computerSelection) {
         hands.textContent = "Draw! Nobody wins";
     }
 
-   
 
-    const result = document.getElementById("result");
+    //show points during game
     result.textContent = `Your points: ${playerPoints}  Computer points: ${computerPoints}`;
 
+
+    // stop game when player reaches 5 points
     if (playerPoints === 5 || computerPoints === 5) {
-        
-        
-        
-        btn.forEach((button) => {
+
+        btn.forEach((button) => {   //disable buttons when game over
             button.disabled = true;
         });
-        
-        const winner = document.getElementById("winner");
 
-       if (playerPoints > computerPoints) {
-            winner.textContent=`Congratulations! You got ${playerPoints} point and the computer got ${computerPoints}`;
-        } else  {
-            winner.textContent=`Sorry mate! You got ${playerPoints} point and the computer got ${computerPoints}`;
-        } 
 
-/*         const board = document.querySelector(".board");
-        const restartButton = document.createElement('button');
+        // show winner
+        if (playerPoints > computerPoints) {
+            winner.textContent = `Congratulations! You got ${playerPoints} point and the computer got ${computerPoints}`;
+        } else {
+            winner.textContent = `Sorry mate! You got ${playerPoints} point and the computer got ${computerPoints}`;
+        }
+
+
+        // add restart button
         restartButton.textContent = "Restart game";
-
-        board.appendChild(restartButton); */
+        board.appendChild(restartButton);
+        restartButton.addEventListener("click", restartGame);
 
 
     }
 
 }
 
-/* 
-THE WINNER WHO REACHES 5 POINTS WINS
-SHOW THE WINNER
-SHOW THE POINTS
-RESTART THE GAME 
+// restarts game by clearing points, hands, result etc. 
+function restartGame() {
+    playerPoints = 0;
+    computerPoints = 0;
 
-IF PLAYERPOINTS OR COMPUTERPOINTS = 5
-ADD WINNER TO HTML
-ADD POINTS TO HTML
-MAKE BUTTONS NOT ACTIVE
-DOM A NEW BUTTON TO RESTART THE GAME AND CLEAR TEXT(='') AND POINTS(=0)
+    hands.textContent = "";
+    result.textContent = "";
+    winner.textContent = "";
 
+    board.removeChild(restartButton);
 
 
-*/
+
+    btn.forEach((button) => {
+        button.disabled = false;
+    });
+
+}
 
 
